@@ -1,0 +1,71 @@
+memo
+
+api
+  rails new api --api
+  devise_token_authの使い方調べる
+
+api作成手順
+  rails new foge --api
+  Gemfileのgem "rack-cors"を有効にする
+  bundle install
+  config\initializers\cors.rbができる
+  rails g model Fuga title:string name:string
+  テンプレート記述
+    Rails.application.config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      # アクセスを許可するオリジン（フロントのアドレス）を指定
+      origins "http://localhost:3000", "本番環境でのアドレス"
+    
+      resource '*',
+        :headers => :any,
+        # ユーザー認証関連
+        :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+    
+        # リソースに対して許可するHTTPリクエストメソッドを指定
+        :methods => [:get, :post, :options, :delete, :put, :head, :patch],
+    
+        # Cookieを利用する場合は以下を記述
+        :credentials => true
+    end
+    end
+  modelの型一覧
+    - string : 文字列
+    - text : 長い文字列
+    - integer : 整数
+    - float : 浮動小数
+    - decimal : 精度の高い小数
+    - datetime : 日時
+    - timestamp : タイムスタンプ
+    - time : 時間
+    - date : 日付
+    - binary : バイナリデータ
+    - boolean : Boolean
+  rails db:migrate
+  rails g controller Fuga
+  処理を書く
+  config routes.rb
+  Rails.application.routes.draw do
+    get "memo" => "memo#index"
+    post "memo" => "memo#create"
+    delete "memo/:id" => "memo#destroy"
+    put "memo/:id" => "memo#update"
+  end
+  url別の処理をかく
+
+front
+  yarn create next-app --typescript or
+  npx create-next-app@latest --ts
+  yarn add axios
+
+  css
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+
+    npm install -D @types/styled-components
+    npm install styled-components
+
+db
+  Memo
+    title
+    content
+    url
